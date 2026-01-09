@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FetchBookContentRequest: Requestable, Codable {
+struct FetchBookContentRequest: Requestable, Hashable, Codable {
     typealias Response = BookModel
     
     static var method: String { "GET" }

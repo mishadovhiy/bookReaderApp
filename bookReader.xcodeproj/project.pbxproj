@@ -21,6 +21,9 @@
 		82CEE2E82F116F6C002CC056 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2E72F116F6C002CC056 /* Key.swift */; };
 		82CEE2EB2F117140002CC056 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2EA2F117140002CC056 /* Requestable.swift */; };
 		82CEE2EF2F1171EF002CC056 /* RequestBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2EE2F1171EF002CC056 /* RequestBuilder.swift */; };
+		82CEE2F12F117E41002CC056 /* DataBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F02F117E41002CC056 /* DataBaseModel.swift */; };
+		82CEE2F32F11803F002CC056 /* TagPositionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F22F11803F002CC056 /* TagPositionModel.swift */; };
+		82CEE2F52F118048002CC056 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F42F118048002CC056 /* TagModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +42,9 @@
 		82CEE2E72F116F6C002CC056 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		82CEE2EA2F117140002CC056 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
 		82CEE2EE2F1171EF002CC056 /* RequestBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestBuilder.swift; sourceTree = "<group>"; };
+		82CEE2F02F117E41002CC056 /* DataBaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseModel.swift; sourceTree = "<group>"; };
+		82CEE2F22F11803F002CC056 /* TagPositionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPositionModel.swift; sourceTree = "<group>"; };
+		82CEE2F42F118048002CC056 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +92,9 @@
 			isa = PBXGroup;
 			children = (
 				82CEE2CA2F116A3F002CC056 /* BookModel.swift */,
+				82CEE2F02F117E41002CC056 /* DataBaseModel.swift */,
+				82CEE2F22F11803F002CC056 /* TagPositionModel.swift */,
+				82CEE2F42F118048002CC056 /* TagModel.swift */,
 				82CEE2EC2F117144002CC056 /* RequestModel */,
 			);
 			path = Model;
@@ -228,13 +237,16 @@
 				82CEE2C52F11687E002CC056 /* bookReaderApp.swift in Sources */,
 				82CEE2E62F116F0D002CC056 /* FetchBookContentRequest.swift in Sources */,
 				82CEE2E82F116F6C002CC056 /* Key.swift in Sources */,
+				82CEE2F32F11803F002CC056 /* TagPositionModel.swift in Sources */,
 				82CEE2EF2F1171EF002CC056 /* RequestBuilder.swift in Sources */,
 				82CEE2D22F116BE5002CC056 /* PageView.swift in Sources */,
+				82CEE2F52F118048002CC056 /* TagModel.swift in Sources */,
 				82CEE2D42F116C04002CC056 /* HomeViewModel.swift in Sources */,
 				82CEE2C92F116A2F002CC056 /* NetworkService.swift in Sources */,
 				82CEE2D02F116BDA002CC056 /* ParentPageView.swift in Sources */,
 				82CEE2D72F116C61002CC056 /* LoadingView.swift in Sources */,
 				82CEE2CB2F116A40002CC056 /* BookModel.swift in Sources */,
+				82CEE2F12F117E41002CC056 /* DataBaseModel.swift in Sources */,
 				82CEE2EB2F117140002CC056 /* Requestable.swift in Sources */,
 				82CEE2C62F11687E002CC056 /* HomeView.swift in Sources */,
 				82CEE2DA2F116D6D002CC056 /* FileManagerService.swift in Sources */,
