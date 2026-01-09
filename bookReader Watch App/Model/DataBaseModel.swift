@@ -8,7 +8,15 @@
 import Foundation
 
 struct DataBaseModel: Codable {
-    var books: [FetchBookContentRequest: [BookModel]] = [:]
+    var books: [FetchBookContentRequest: BookModel] = [:]
+    
+    var metadata: Metadata = .init()
+    
+    var reading: Reading = .init()
+    
+    struct Metadata: Codable {
+        var tags: [TagModel] = .demo
+    }
     
     struct Reading: Codable {
         

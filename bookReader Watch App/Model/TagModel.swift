@@ -11,8 +11,16 @@ struct TagModel: Codable {
     let title: String
     let id: String
     
-    init(title: String, id: String = UUID().uuidString) {
+    init(title: String) {
         self.title = title
-        self.id = id
+        self.id = UUID().uuidString
+    }
+}
+
+extension [TagModel] {
+    static var demo: Self {
+        [
+            .init(title: "BookMark")
+        ]
     }
 }

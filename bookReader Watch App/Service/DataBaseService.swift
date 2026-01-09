@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct FileManagerService {
-    private let coreFileManager: CoreFileManager
+struct DataBaseService {
+    private let coreFileManager: CoreFileManager = .init()
     
     var dataBase: DataBaseModel? {
         get {
@@ -64,7 +64,7 @@ struct FileManagerService {
     }
 }
 
-extension FileManagerService {
+extension DataBaseService {
     
     struct CoreFileManager {
         func writeData(_ data: Data,

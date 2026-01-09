@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct PageView: View {
-    let bookID
+    let bookID: String
     let chapter: BookModel.Chapters
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
@@ -16,5 +16,5 @@ struct PageView: View {
 }
 
 #Preview {
-    PageView(chapter: .demo)
+    PageView(bookID: "001", chapter: .demo)
 }

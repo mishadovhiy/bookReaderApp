@@ -8,14 +8,22 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var viewModel: HomeViewModel = .init()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+            if viewModel.isLoading {
+                LoadingView()
+            } else if let book = viewModel.response {
+                ParentPageView(book: book)
+            } else {
+                Text(viewModel.error?.domain ?? "Unknow error occupied")
+            }
         }
         .padding()
+        .onAppear {
+            viewModel.fetchBook()
+        }
     }
 }
 

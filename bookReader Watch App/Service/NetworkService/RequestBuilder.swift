@@ -12,8 +12,13 @@ extension NetworkService {
         
         let request: URLRequest
         
-        init(request: Requestable) {
-            self.request = request
+        init(request data: any Requestable) throws {
+            let requestType = type(of: data)
+            let stringURL = Key.serverURL.rawValue + requestType.path
+            guard let url = URL(string: stringURL) else {
+                throw NSError(domain: "Error creating url", code: URLError.badURL.rawValue)
+            }
+            request = .init(url: url)
         }
     }
 }
