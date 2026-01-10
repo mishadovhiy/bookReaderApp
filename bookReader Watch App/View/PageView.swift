@@ -6,25 +6,36 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct PageView: View {
     let bookID: String
     let chapter: BookModel.Chapters
     @Binding var firstAppLaunched: Bool
+    @State var lastScrollHolder: String?
+    
     @Binding var lastScrollID: String?
     @State private var scrollTo: String?
     @State var contents: [(String, NSAttributedString)] = []
-    @Binding var backGroundsAt: [String: [Int]]// = ["p-001-001": [6]]
+    @EnvironmentObject var db: CoreDataService
+    @Binding var backGroundsAt: [TagPositionList]// = ["p-001-001": [6]]
     func reloadAttributedString() {
         var contents = contents
         contents.removeAll()
         self.chapter.paragraphs.forEach { paragraph in
             let attributes: NSMutableAttributedString = .init()
             let array = paragraph.content.split(separator: " ")
-            let key = self.backGroundsAt[paragraph.id]
+
+            let key = self.backGroundsAt.filter({
+                ![
+                    $0.paragraphID == paragraph.id, $0.chapterID == chapter.id
+                ].contains(false)
+            })
             for i in 0..<array.count {
                 let item = array[i]
-                let higlight = key?.contains(i) ?? false
+                let higlight = key.contains(where: {
+                    $0.positionInText == i
+                })
 
                 attributes.append(.init(string: String(item) + " ", attributes: higlight ? [
                     .backgroundColor: UIColor.red
@@ -50,42 +61,19 @@ struct PageView: View {
                             .multilineTextAlignment(.leading)
                             .id(content.0)
                             .onDisappear {
-                                lastScrollID = content.0
+                                lastScrollHolder = content.0
                                 print(content.0, " bjhknlm ")
                             }
                             .overlay {
                                 GeometryReader { proxy in
                                     Color.white.opacity(0.01)
                                         .onTapGesture { point in
-                                            print(point, " egrsfdsa")
-                                            let text = self.textAtPoint(point, text: content.1.string, font: .systemFont(ofSize: 12), maxWidth: proxy.size.width)
-                                            if let text {
-                                                var values = self.backGroundsAt[content.0] ?? []
-                                                if values.contains(text) {
-                                                    values.removeAll(where: {
-                                                        $0 == text
-                                                    })
-                                                } else {
-                                                    values.append(text)
-                                                }
-                                                self.backGroundsAt.updateValue(values, forKey: content.0)
-                                            }
-                                            print(text)
+                                            didTapWord(parapgaphID: content.0, text: content.1.string, viewWidth: proxy.size.width, tapPosition: point)
                                         }
                                 }
                                 
                             }
                     }
-                    //                    ForEach(chapter.paragraphs, id: \.id) { paragraph in
-                    //                        Text(paragraph.content)
-                    //                            .frame(maxWidth: .infinity, alignment: .leading)
-                    //                            .multilineTextAlignment(.leading)
-                    //                            .id(paragraph.id)
-                    //                            .onDisappear {
-                    //                                lastScrollID = paragraph.id
-                    //                                print(paragraph.id, " bjhknlm ")
-                    //                            }
-                    //                    }
                 })
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .onChange(of: scrollTo) { newValue in
@@ -100,12 +88,43 @@ struct PageView: View {
             reloadAttributedString()
         }
         .onAppear {
-            print("appsfdfds")
+            print("appsfdfds ", lastScrollID)
             reloadAttributedString()
-            if let lastScrollID, !firstAppLaunched, !lastScrollID.isEmpty {
+            
+        }
+        .onChange(of: lastScrollID) { oldValue, newValue in
+            if let lastScrollID, !lastScrollID.isEmpty {
                 scrollTo = lastScrollID
             }
         }
+        .onDisappear {
+            self.lastScrollID = lastScrollHolder
+        }
+    }
+    
+    func didTapWord(parapgaphID: String, text: String, viewWidth: CGFloat, tapPosition: CGPoint) {
+        print(tapPosition, " egrsfdsa")
+        let text = self.textAtPoint(tapPosition, text: text, font: .systemFont(ofSize: 12), maxWidth: viewWidth)
+        if let text {
+            let values = self.backGroundsAt.filter({
+                parapgaphID == $0.paragraphID
+            })
+            if values.contains(where: {
+                $0.positionInText == text
+            }) {
+                backGroundsAt.removeAll(where: {
+                    $0.positionInText == text
+                })
+            } else {
+                let new: TagPositionList = .init(context: db.contexts)
+                new.bookID = bookID
+                new.chapterID = chapter.id
+                new.paragraphID = parapgaphID
+                new.positionInText = Int64(text)
+                backGroundsAt.append(new)
+            }
+        }
+        print(text)
     }
     
     func wordWidth(_ word: String, font: UIFont) -> CGFloat {

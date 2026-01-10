@@ -9,6 +9,7 @@ import Foundation
 
 struct TagPositionModel: Codable {
     let bookID: String
-    let chapterTextIndex: Int
-    let tag: TagModel
+    let chapterID: String
+    let paragraphID: String
+    let tagList: [TagModel]
 }

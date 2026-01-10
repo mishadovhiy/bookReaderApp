@@ -26,7 +26,7 @@
 		82CEE2F72F118F7D002CC056 /* ErrorNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F62F118F7D002CC056 /* ErrorNetworkResponse.swift */; };
 		82CEE2FA2F11B7E1002CC056 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F92F11B7E1002CC056 /* String.swift */; };
 		82CEE2FC2F11CDF9002CC056 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2FB2F11CDF9002CC056 /* HomeView.swift */; };
-		82CEE30B2F11E0DC002CC056 /* ReadingProgress.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE3092F11E0DC002CC056 /* ReadingProgress.xcdatamodeld */; };
+		82CEE30B2F11E0DC002CC056 /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */; };
 		82CEE30D2F11E225002CC056 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE30C2F11E225002CC056 /* CoreDataService.swift */; };
 /* End PBXBuildFile section */
 
@@ -52,7 +52,7 @@
 		82CEE2F82F11B251002CC056 /* bookReader-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "bookReader-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		82CEE2F92F11B7E1002CC056 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		82CEE2FB2F11CDF9002CC056 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		82CEE30A2F11E0DC002CC056 /* ReadingProgress.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadingProgress.xcdatamodel; sourceTree = "<group>"; };
+		82CEE30A2F11E0DC002CC056 /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
 		82CEE30C2F11E225002CC056 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -89,7 +89,7 @@
 				82CEE2F82F11B251002CC056 /* bookReader-Watch-App-Info.plist */,
 				82CEE2C12F11687E002CC056 /* Assets.xcassets */,
 				82CEE2C22F11687E002CC056 /* bookReaderApp.swift */,
-				82CEE3092F11E0DC002CC056 /* ReadingProgress.xcdatamodeld */,
+				82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */,
 				82CEE3082F11DDF1002CC056 /* Extensions */,
 				82CEE2E92F116F72002CC056 /* AppConfig */,
 				82CEE2CD2F116A4C002CC056 /* Service */,
@@ -262,7 +262,7 @@
 				82CEE2F32F11803F002CC056 /* TagPositionModel.swift in Sources */,
 				82CEE2EF2F1171EF002CC056 /* RequestBuilder.swift in Sources */,
 				82CEE2D22F116BE5002CC056 /* PageView.swift in Sources */,
-				82CEE30B2F11E0DC002CC056 /* ReadingProgress.xcdatamodeld in Sources */,
+				82CEE30B2F11E0DC002CC056 /* AppData.xcdatamodeld in Sources */,
 				82CEE2F52F118048002CC056 /* TagModel.swift in Sources */,
 				82CEE2D42F116C04002CC056 /* HomeViewModel.swift in Sources */,
 				82CEE2C92F116A2F002CC056 /* NetworkService.swift in Sources */,
@@ -491,13 +491,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		82CEE3092F11E0DC002CC056 /* ReadingProgress.xcdatamodeld */ = {
+		82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				82CEE30A2F11E0DC002CC056 /* ReadingProgress.xcdatamodel */,
+				82CEE30A2F11E0DC002CC056 /* AppData.xcdatamodel */,
 			);
-			currentVersion = 82CEE30A2F11E0DC002CC056 /* ReadingProgress.xcdatamodel */;
-			path = ReadingProgress.xcdatamodeld;
+			currentVersion = 82CEE30A2F11E0DC002CC056 /* AppData.xcdatamodel */;
+			path = AppData.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

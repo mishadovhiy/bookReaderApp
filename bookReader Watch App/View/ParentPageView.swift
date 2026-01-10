@@ -12,7 +12,7 @@ struct ParentPageView: View {
     let book: BookModel
     @State var scrollIDs: [BookModel.Chapters: String] = [:]
     @State var dataBaseService: DataBaseService = .init()
-    @State var higlightedText: [String: [String: [Int]]] = [:]
+    @State var higlightedText: [TagPositionList] = []
     @State var selection: String = ""
     @State var firstTimeAppLaunched: Bool = false
     @EnvironmentObject var coreDataService: CoreDataService
@@ -22,51 +22,49 @@ struct ParentPageView: View {
         TabView(selection: $selection) {
             ForEach(book.chapters, id: \.id) { chapter in
                 PageView(bookID: book.id, chapter: chapter, firstAppLaunched: $firstTimeAppLaunched, lastScrollID: .init(get: {
-                    scrollIDs[chapter]
+                    return readingProgress?.paragraphID ?? ""
                 }, set: { paragraph in
-                    scrollIDs.updateValue(paragraph ?? "", forKey: chapter)
-                    readingProgress?.bookID = book.id
                     readingProgress?.chapterID = chapter.id
                     readingProgress?.paragraphID = paragraph
-                }), backGroundsAt: .init(get: {
-                    higlightedText[chapter.id] ?? [:]
-                }, set: {
-                    higlightedText.updateValue($0, forKey: chapter.id)
-                }))
+                }), backGroundsAt: $higlightedText)
                 .id(chapter.id)
             }
         }
+        .ignoresSafeArea(.all)
         .onChange(of: selection) { newValue in
             let key = self.book.chapters.first(where: {
                 $0.id == selection
             })
+            if readingProgress?.chapterID != newValue {
+                readingProgress = .init(context: coreDataService.contexts)
+                readingProgress?.bookID = book.id
+                readingProgress?.chapterID = newValue
+            }
+            
             print(newValue, " yhrtgrfsd ", key)
-
+            Task {
+                let request = TagPositionList.fetchRequest()
+                request.predicate = NSPredicate(
+                    format: "bookID == %@ AND chapterID == %@",
+                    self.book.id, newValue
+                )
+                let fetch = try? coreDataService.contexts.fetch(request)
+                print(fetch, " yhtgerfsd ")
+                await MainActor.run {
+                    self.higlightedText = fetch ?? []
+                }
+            }
         }
         .task {
             let request = ReadingProgress.fetchRequest()
-            guard let context = coreDataService.contexts[.readingProgress] else {
-                fatalError()
-            }
+            let context = coreDataService.contexts
             let fetch = try? context.fetch(request).first ?? .init(context: context)
             await MainActor.run {
                 self.readingProgress = fetch
-                print(readingProgress?.chapterID)
+                readingProgress?.bookID = book.id
+                print(readingProgress?.paragraphID, " vjvjyjv", readingProgress?.chapterID)
                 self.selection = readingProgress?.chapterID ?? ""
             }
-//            let db = coreDataService.contexts[.readingProgress]?.fetch(.init())
-//            //dataBaseService.dataBase?.reading
-//            print(db, " jhbjhbjhb")
-//            await MainActor.run {
-//                if let key = self.book.chapters.first(where: {
-//                    $0.id == db?.
-//                }) {
-//                    self.scrollIDs.updateValue(db?.progress?.paragraphID ?? "", forKey: key)
-//                    print(key.id, " bjukbkuhkub ")
-//                    self.selection = key.id
-//
-//                }
-//            }
         }
         .onAppear(perform: {
             //load higlihted text, set progress
@@ -74,19 +72,19 @@ struct ParentPageView: View {
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .onDisappear {
             Task(priority: .background) {
-                guard let context = coreDataService.contexts[.readingProgress] else {
-                    return
+                let context = coreDataService.contexts
+                print(readingProgress?.chapterID, " erfedasx")
+                let fetchRequest: NSFetchRequest<ReadingProgress> =
+                    ReadingProgress.fetchRequest()
+                let all = try? context.fetch(fetchRequest)
+                all?.forEach {
+                    if $0.chapterID != readingProgress?.chapterID {
+                        context.delete($0)
+                    }
                 }
                 try? context.save()
             }
-//            Task(priority: .utility) {
-//                if let key = self.book.chapters.first(where: {
-//                    $0.id == selection
-//                }) {
-//                    dataBaseService.dataBase?.reading.progress = .init(bookID: book.id, chapterID: selection, paragraphID: self.scrollIDs[key] ?? "")
-//print(key, " bjukbkuhkub ")
-//                }
-//            }
+
         }
     }
 }

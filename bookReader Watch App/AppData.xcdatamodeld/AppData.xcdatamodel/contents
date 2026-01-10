@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24299" systemVersion="25C56" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="ReadingProgress" representedClassName="ReadingProgress" syncable="YES" codeGenerationType="class">
+        <attribute name="bookID" attributeType="String"/>
+        <attribute name="chapterID" attributeType="String"/>
+        <attribute name="paragraphID" attributeType="String"/>
+    </entity>
+    <entity name="Tag" representedClassName="Tag" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="TagPositionList" representedClassName="TagPositionList" syncable="YES" codeGenerationType="class">
+        <attribute name="bookID" optional="YES" attributeType="String"/>
+        <attribute name="chapterID" optional="YES" attributeType="String"/>
+        <attribute name="paragraphID" optional="YES" attributeType="String"/>
+        <attribute name="positionInText" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="tag" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Tag"/>
+    </entity>
+</model>
