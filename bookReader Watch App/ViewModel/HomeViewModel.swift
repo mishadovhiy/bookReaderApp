@@ -33,6 +33,15 @@ class HomeViewModel: ObservableObject {
         ].contains(false)
     }
     
+    var hasError: Bool {
+        [
+            response != nil,
+            readingProgress != nil
+        ].contains(false)
+    }
+    
+    let defaultContentErrorText = "Unknow error occupied"
+    
     func fetchBook(db: CoreDataService) {
         error = nil
         Task(priority: .background) {
@@ -62,4 +71,17 @@ class HomeViewModel: ObservableObject {
     var startButtonTitle: String {
         (readingProgress?.chapterID == nil ? "Start" : "Continiue") + " " + "reading"
     }
+    
+    var isReadingLast: Bool {
+        response?.chapters.last?.id == readingProgress?.chapterID
+    }
+    
+    var chapterList: [BookModel.Chapters] {
+        let chapters = response?.chapters ?? []
+        let removeID = self.readingProgress?.chapterID ?? chapters.first?.id
+        return Array(chapters.filter({
+            $0.id != removeID
+        }))
+    }
+    
 }

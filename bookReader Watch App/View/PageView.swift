@@ -6,11 +6,10 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct PageView: View {
     
-    @EnvironmentObject var db: CoreDataService
+    @EnvironmentObject var coreDataService: CoreDataService
     @Binding var readingProgress: ReadingProgress?
     @Binding var tapPositions: [TagPositionList]
     @StateObject private var viewModel: PageViewModel
@@ -28,21 +27,7 @@ struct PageView: View {
     var body: some View {
         ScrollView(.vertical) {
             ScrollViewReader { scrollProxy in
-                LazyVStack(spacing: 10, content: {
-                    Text(viewModel.chapter.title)
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .multilineTextAlignment(.leading)
-                    textListView
-                })
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .onChange(of: viewModel.scrollTo) { newValue in
-                    if let newValue {
-                        scrollProxy.scrollTo(newValue)
-                        self.viewModel.scrollTo = nil
-                    }
-                }
+                contentView(scrollProxy)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -52,7 +37,6 @@ struct PageView: View {
         .onAppear {
             viewModel.reloadAttributedString(tagPosition: tapPositions)
             if let lastScrollID = readingProgress?.paragraphID, !lastScrollID.isEmpty {
-                print(lastScrollID, " juhkjbhk ")
                 viewModel.scrollTo = lastScrollID
             }
         }
@@ -61,27 +45,60 @@ struct PageView: View {
         }
     }
     
+    func contentView(_ scrollProxy: ScrollViewProxy) -> some View {
+        LazyVStack(spacing: 10, content: {
+            Text(viewModel.chapter.title)
+                .font(.largeTitle)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .multilineTextAlignment(.leading)
+            textListView
+        })
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+        .onChange(of: viewModel.scrollTo) { newValue in
+            if let newValue {
+                scrollProxy.scrollTo(newValue)
+                self.viewModel.scrollTo = nil
+            }
+        }
+    }
+    
     var textListView: some View {
-        ForEach(viewModel.contents, id: \.0) { content in
-            Text(.init(content.1))
+        ForEach(viewModel.paragraphs, id: \.paragraphID) { content in
+            Text(.init(content.attributedString))
+                .opacity(0.8)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.system(size: viewModel.textFontSize.pointSize))
                 .multilineTextAlignment(.leading)
-                .id(content.0)
+                .id(content.paragraphID)
                 .onDisappear {
-                    viewModel.lastVisibleParagraph = content.0
+                    viewModel.lastVisibleParagraph = content.paragraphID
                 }
                 .overlay {
-                    GeometryReader { proxy in
-                        Color.white.opacity(0.01)
-                            .onTapGesture { point in
-                                viewModel.didTapWord(parapgaphID: content.0, text: content.1.string, viewWidth: proxy.size.width, tapPosition: point, tagPosition: $tapPositions, db: db)
-                            }
-                    }
-                    
+                    textTapOverlay(content)
                 }
         }
     }
-
+    
+    func textTapOverlay(_ content: PageViewModel.ParagraphText) -> some View {
+        GeometryReader { proxy in
+            Color.white.opacity(0.01)
+                .onTapGesture { point in
+                    viewModel.didTapWord(
+                        parapgaphID: content.paragraphID,
+                        text: content.attributedString.string,
+                        viewWidth: proxy.size.width,
+                        tapPosition: point,
+                        tagPosition: $tapPositions,
+                        db: coreDataService)
+                }
+        }
+    }
 }
 
+#Preview {
+    PageView(bookID: "001",
+             chapter: .demo,
+             readingProgress: .constant(nil),
+             tapPositions: .constant([]))
+}

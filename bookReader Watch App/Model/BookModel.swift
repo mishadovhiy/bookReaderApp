@@ -24,6 +24,12 @@ struct BookModel: Codable {
     }
 }
 
+extension BookModel {
+    static var demo: Self {
+        .init(id: "001", title: "some title", chapters: [.demo])
+    }
+}
+
 extension BookModel.Chapters {
     static var demo: Self {
         .init(id: "001", title: "Chapter title #1", paragraphs: [

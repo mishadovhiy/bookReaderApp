@@ -8,13 +8,18 @@
 import Foundation
 import Combine
 import CoreData
-import Combine
-import SwiftUI
 
 class ParentPageViewModel: ObservableObject {
+    
     @Published var scrollIDs: [BookModel.Chapters: String] = [:]
     @Published var higlightedText: [TagPositionList] = []
-    var selection: String {
+    @Published var readingProgress: ReadingProgress?
+    
+    init(readingProgress: ReadingProgress?) {
+        self.readingProgress = readingProgress
+    }
+    
+    var tabViewSelection: String {
         get {
             readingProgress?.chapterID ?? ""
         }
@@ -22,23 +27,14 @@ class ParentPageViewModel: ObservableObject {
             readingProgress?.chapterID = newValue
         }
     }
-    @Published var readingProgress: ReadingProgress?
-    
-    init(readingProgress: ReadingProgress?) {
-        self.readingProgress = readingProgress
-    }
     
     func selectionDidChange(book: BookModel, db: CoreDataService) {
-        let key = book.chapters.first(where: {
-            $0.id == selection
-        })
-        if readingProgress?.chapterID != selection {
-        
+        if readingProgress?.chapterID != tabViewSelection {
             readingProgress = .init(context: db.context)
             readingProgress?.bookID = book.id
-            readingProgress?.chapterID = selection
+            readingProgress?.chapterID = tabViewSelection
         }
         
-        self.higlightedText = db.fetchTapPositions(bookID: book.id, chapterID: selection) ?? []
+        self.higlightedText = db.fetchTapPositions(bookID: book.id, chapterID: tabViewSelection) ?? []
     }
 }

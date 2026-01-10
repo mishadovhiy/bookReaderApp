@@ -6,9 +6,9 @@
 //
 
 import SwiftUI
-import CoreData
 
 struct ParentPageView: View {
+    
     let book: BookModel
     @EnvironmentObject var coreDataService: CoreDataService
     @StateObject var viewModel: ParentPageViewModel
@@ -23,14 +23,14 @@ struct ParentPageView: View {
         _viewModel = StateObject(wrappedValue: .init(readingProgress: readingProgress))
     }
     var body: some View {
-        TabView(selection: $viewModel.selection) {
+        TabView(selection: $viewModel.tabViewSelection) {
             ForEach(book.chapters, id: \.id) { chapter in
                 PageView(bookID: book.id, chapter: chapter, readingProgress: $viewModel.readingProgress, tapPositions: $viewModel.higlightedText)
                 .id(chapter.id)
             }
         }
         .ignoresSafeArea(.all)
-        .onChange(of: viewModel.selection) { newValue in
+        .onChange(of: viewModel.tabViewSelection) { newValue in
             viewModel.selectionDidChange(book: book, db: coreDataService)
         }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
@@ -41,11 +41,10 @@ struct ParentPageView: View {
             Task(priority: .background) {
                 coreDataService.save(savingReadingList: self.viewModel.readingProgress)
             }
-
         }
     }
 }
 
-//#Preview {
-//    ParentPageView(book: .init(id: "", title: "", chapters: []))
-//}
+#Preview {
+    ParentPageView(book: .demo, readingProgress: nil, chapterID: nil)
+}
