@@ -25,3 +25,8 @@ https://github.com/user-attachments/assets/beda585b-a9f9-42ad-b7fe-2258e2dc25a0
 
 ## 
 Additionally implemented static text on home screen, under continiue reading button. Text stays statically on the screen during the scroll, and presents limited amount of characters, from limited about of chapters
+
+##
+### Development process
+1. Core Data implementation, database data model structure took most of the time, at the begining i have implemented local database storage with FileManager, but then switched to the CoreData
+2. getting 
