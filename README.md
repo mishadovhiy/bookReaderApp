@@ -29,4 +29,5 @@ Additionally implemented static text on home screen, under continiue reading but
 ##
 ### Development process
 1. Core Data implementation, database data model structure took most of the time, at the begining i have implemented local database storage with FileManager, but then switched to the CoreData
-2. getting 
+2. getting tapped word index and storing selected word in the database - took most of the time, during implementation of taping on word, in the begining i have user Custom URL Shema, but watchOS didn't support them and resourching for Custom URL Schema on WatchOS took also more time. I have implemented easier solution - to calculate tapped word with CGRect at tapped Point and database structure become simplier
+3. Additionally have implemented text unser start button, it took additionally 3 hours to mask 
