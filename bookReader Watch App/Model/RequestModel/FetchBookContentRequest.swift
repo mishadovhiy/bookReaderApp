@@ -12,6 +12,8 @@ struct FetchBookContentRequest: Requestable, Hashable, Codable {
     
     static var method: String { "GET" }
     
+    static var isCacheable: Bool { true }
+    
     /// demo url path
     /// after completing API Request on Back End side: change path to the path of the Request URL last component (example: "book/fetchContent.php"), and add parameter id to the FetchBookContentRequest
     static var path: String { "book1.json" }

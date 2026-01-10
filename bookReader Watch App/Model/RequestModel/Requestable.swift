@@ -11,4 +11,5 @@ protocol Requestable {
     associatedtype Response: Codable
     static var method: String { get }
     static var path: String { get }
+    static var isCacheable: Bool { get }
 }

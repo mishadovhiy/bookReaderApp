@@ -11,7 +11,6 @@ import Combine
 class HomeViewModel: ObservableObject {
     @Published var response: BookModel?
     @Published var error: NSError?
-    private let dataBaseService: DataBaseService = .init()
     
     var isLoading: Bool {
         ![
@@ -23,14 +22,7 @@ class HomeViewModel: ObservableObject {
     func fetchBook() {
         error = nil
         Task(priority: .background) {
-            let request: FetchBookContentRequest = .init()
-            if let booksDB = dataBaseService.dataBase?.books[request] {
-                await MainActor.run {
-                    self.response = booksDB
-                }
-                return
-            }
-            let response = await NetworkService().startTask(request)
+            let response = await NetworkService().startTask(FetchBookContentRequest())
             await MainActor.run {
                 switch response {
                 case .success(let response):

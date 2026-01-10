@@ -11,7 +11,6 @@ import CoreData
 struct ParentPageView: View {
     let book: BookModel
     @State var scrollIDs: [BookModel.Chapters: String] = [:]
-    @State var dataBaseService: DataBaseService = .init()
     @State var higlightedText: [TagPositionList] = []
     @State var selection: String = ""
     @State var firstTimeAppLaunched: Bool = false
