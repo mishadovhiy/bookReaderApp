@@ -12,7 +12,7 @@ import Combine
 class CoreDataService: ObservableObject {
     
     let container: NSPersistentContainer
-    var contexts: NSManagedObjectContext {
+    var context: NSManagedObjectContext {
         container.viewContext
     }
     
@@ -20,5 +20,29 @@ class CoreDataService: ObservableObject {
         self.container = .init(name: "AppData")
         container.loadPersistentStores { description, error in }
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    func save(savingReadingList: ReadingProgress?) {
+        let fetchRequest: NSFetchRequest<ReadingProgress> =
+            ReadingProgress.fetchRequest()
+        let all = try? context.fetch(fetchRequest)
+        all?.forEach {
+            if $0.chapterID != savingReadingList?.chapterID {
+                context.delete($0)
+            }
+        }
+        try? context.save()
+    }
+    
+    func fetchTapPositions(
+        bookID: String,
+        chapterID: String
+    ) -> [TagPositionList]? {
+        let request = TagPositionList.fetchRequest()
+        request.predicate = NSPredicate(
+            format: "bookID == %@ AND chapterID == %@",
+            bookID, chapterID
+        )
+        return try? context.fetch(request)
     }
 }

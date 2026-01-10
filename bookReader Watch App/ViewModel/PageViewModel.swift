@@ -23,18 +23,19 @@ class PageViewModel: ObservableObject {
     
     let textFontSize: UIFont = .systemFont(ofSize: 14, weight: .regular)
     
-    @Published var lastScrollHolder: String?
+    @Published var lastVisibleParagraph: String?
     @Published var scrollTo: String?
     @Published var contents: [(String, NSAttributedString)] = []
     
-    func reloadAttributedString(backGroundsAt: [TagPositionList]) {
+    #warning("refactor")
+    func reloadAttributedString(tagPosition: [TagPositionList]) {
         var contents = contents
         contents.removeAll()
         self.chapter.paragraphs.forEach { paragraph in
             let attributes: NSMutableAttributedString = .init()
             let array = paragraph.content.split(separator: " ")
 
-            let key = backGroundsAt.filter({
+            let key = tagPosition.filter({
                 ![
                     $0.paragraphID == paragraph.id, $0.chapterID == chapter.id
                 ].contains(false)
@@ -55,76 +56,73 @@ class PageViewModel: ObservableObject {
         self.contents = contents
     }
 
-    
-    func didTapWord(parapgaphID: String, text: String, viewWidth: CGFloat, tapPosition: CGPoint, backGroundsAt: Binding<[TagPositionList]>, db: CoreDataService) {
-        let text = self.textAtPoint(tapPosition, text: text, font: textFontSize, maxWidth: viewWidth)
-        if let text {
-            let values = backGroundsAt.wrappedValue.filter({
+    #warning("refactor")
+    func didTapWord(parapgaphID: String, text: String, viewWidth: CGFloat, tapPosition: CGPoint, tagPosition: Binding<[TagPositionList]>, db: CoreDataService) {
+        let wordIndexTapped = tapWordInx(tapPosition, text: text, maxWidth: viewWidth)
+        if let wordIndexTapped {
+            let values = tagPosition.wrappedValue.filter({
                 parapgaphID == $0.paragraphID
             })
             if values.contains(where: {
-                $0.positionInText == text
+                $0.positionInText == wordIndexTapped
             }) {
-                let toDelete = backGroundsAt.wrappedValue.filter({
-                    $0.positionInText == text
+                let toDelete = tagPosition.wrappedValue.filter({
+                    $0.positionInText == wordIndexTapped
                 })
                 toDelete.forEach {
                     db.contexts.delete($0)
                 }
-                backGroundsAt.wrappedValue.removeAll(where: {
-                    $0.positionInText == text
+                tagPosition.wrappedValue.removeAll(where: {
+                    $0.positionInText == wordIndexTapped
                 })
             } else {
                 let new: TagPositionList = .init(context: db.contexts)
                 new.bookID = bookID
                 new.chapterID = chapter.id
                 new.paragraphID = parapgaphID
-                new.positionInText = Int64(text)
-                backGroundsAt.wrappedValue.append(new)
+                new.positionInText = Int64(wordIndexTapped)
+                tagPosition.wrappedValue.append(new)
             }
         }
     }
     
-    func wordWidth(_ word: String, font: UIFont) -> CGFloat {
-        (word as NSString).size(withAttributes: [.font: font]).width
+    func wordWidth(_ word: String) -> CGFloat {
+        (word as NSString).size(withAttributes: [.font: textFontSize]).width
     }
     
-    func textAtPoint(
+    private func tapWordInx(
         _ point: CGPoint,
         text: String,
-        font: UIFont,
         maxWidth: CGFloat
     ) -> Int? {
 
-        let words = text.split(whereSeparator: \.isWhitespace)
-        let spaceWidth = wordWidth(" ", font: font)
-        let lineHeight = font.lineHeight
+        let chapterWords = text.split(whereSeparator: \.isWhitespace)
+        let spaceWidth = wordWidth(" ")
 
         var x: CGFloat = 0
         var y: CGFloat = 0
 
-        for i in 0..<words.count {
-            let word = words[i]
-            let wordStr = String(word)
-            let width = wordWidth(wordStr, font: font)
+        for i in 0..<chapterWords.count {
+            let word = chapterWords[i]
+            let wordWidth = wordWidth(String(word))
 
-            if x + width > maxWidth {
+            if x + wordWidth > maxWidth {
                 x = 0
-                y += lineHeight
+                y += textFontSize.lineHeight
             }
 
-            let rect = CGRect(
+            let wordRect = CGRect(
                 x: x,
                 y: y,
-                width: width,
-                height: lineHeight
+                width: wordWidth,
+                height: textFontSize.lineHeight
             )
 
-            if rect.contains(point) {
+            if wordRect.contains(point) {
                 return i
             }
 
-            x += width + spaceWidth
+            x += wordWidth + spaceWidth
         }
 
         return nil
