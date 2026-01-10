@@ -15,6 +15,7 @@ class HomeViewModel: ObservableObject {
     @MainActor @Published var error: NSError?
     @Published var readingProgress: ReadingProgress?
     @Published var selectedChapterID: String?
+    @MainActor @Published var tagCount: [String: Int] = [:]
     
     var isPagePresenting: Bool {
         get {
@@ -62,10 +63,27 @@ class HomeViewModel: ObservableObject {
         let fetch = try? db.context
             .fetch(request).first ?? .init(
                 context: db.context)
+        await fetchTagCount(db: db)
+        
         await MainActor.run {
-            self.readingProgress = fetch
+            readingProgress = fetch
             readingProgress?.bookID = bookID
         }
+    }
+    
+    private func fetchTagCount(db: CoreDataService) async {
+        let request = TagPositionList.fetchRequest()
+        let fetch = try? db.context.fetch(request)
+        
+        let chapterIDs = response?.chapters.compactMap({$0.id}) ?? []
+        var tagCount = self.tagCount
+        tagCount.removeAll()
+        
+        fetch?.forEach { tag in
+            let count = tagCount[tag.chapterID ?? ""] ?? 0
+            tagCount.updateValue(count + 1, forKey: tag.chapterID ?? "")
+        }
+        self.tagCount = tagCount
     }
     
     var startButtonTitle: String {

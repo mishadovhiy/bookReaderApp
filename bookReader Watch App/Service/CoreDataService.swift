@@ -38,11 +38,19 @@ class CoreDataService: ObservableObject {
         bookID: String,
         chapterID: String
     ) -> [TagPositionList]? {
-        let request = TagPositionList.fetchRequest()
-        request.predicate = NSPredicate(
+        fetchTagPositions(predicate: .init(
             format: "bookID == %@ AND chapterID == %@",
             bookID, chapterID
-        )
+        ))
+    }
+    
+    func fetchAllTagPositions() -> [TagPositionList]? {
+        return fetchTagPositions()
+    }
+    
+    private func fetchTagPositions(predicate: NSPredicate? = nil) -> [TagPositionList]? {
+        let request = TagPositionList.fetchRequest()
+        request.predicate = predicate
         return try? context.fetch(request)
     }
 }

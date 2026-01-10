@@ -85,13 +85,13 @@
 				82CEE2F82F11B251002CC056 /* bookReader-Watch-App-Info.plist */,
 				82CEE2C12F11687E002CC056 /* Assets.xcassets */,
 				82CEE2C22F11687E002CC056 /* bookReaderApp.swift */,
-				82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */,
-				82CEE3082F11DDF1002CC056 /* Extensions */,
 				82CEE2E92F116F72002CC056 /* AppConfig */,
 				82CEE2CD2F116A4C002CC056 /* Service */,
 				82CEE2CC2F116A45002CC056 /* Model */,
 				82CEE2CE2F116A56002CC056 /* View */,
 				82CEE2D52F116C0B002CC056 /* ViewModel */,
+				82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */,
+				82CEE3082F11DDF1002CC056 /* Extensions */,
 			);
 			path = "bookReader Watch App";
 			sourceTree = "<group>";
@@ -420,7 +420,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.6;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
 		};
@@ -455,7 +455,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 9.6;
+				WATCHOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;
 		};

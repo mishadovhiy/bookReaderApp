@@ -44,7 +44,7 @@ struct HomeView: View {
                     .opacity(0.4)
                 chapterContainer
             }
-            .padding()
+            .padding(10)
         }
         .overlay {
             NavigationLink("", destination: chapterPageView, isActive: $viewModel.isPagePresenting)
@@ -78,14 +78,16 @@ struct HomeView: View {
             .font(.footnote)
             .opacity(0.8)
             .foregroundColor(.secondary)
-            .padding(.leading, 20)
+            .padding(.leading, 10)
         VStack(spacing: .zero) {
             chapterTitleList
         }
-        .padding(15)
+        .padding(.vertical, 5)
+        .padding(.leading, 15)
+        .padding(.trailing, 10)
         .background(.white.opacity(0.08))
         .cornerRadius(24)
-        .padding(5)
+        .padding(.horizontal, -5)
     }
     
     @ViewBuilder
@@ -93,16 +95,34 @@ struct HomeView: View {
         let chapterList = viewModel.chapterList
         ForEach(chapterList, id: \.id) { chapter in
             let isLast = !viewModel.isReadingLast && chapter.id == chapterList.last?.id
-            Text(isLast ? "Last Chapter" : chapter.title)
-                .opacity(0.8)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(.background.opacity(0.01))
-                .frame(height: 40)
-                .font(.footnote)
-                .multilineTextAlignment(.leading)
-                .onTapGesture {
-                    viewModel.selectedChapterID = chapter.id
+            HStack {
+                Text(isLast ? "Last Chapter" : chapter.title)
+                    .opacity(0.8)
+                    .font(.footnote)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                if let tagCount = viewModel.tagCount[chapter.id],
+                    tagCount >= 1 {
+                    Text("\(tagCount)")
+                        .blendMode(.destinationOut)
+                        .font(.footnote)
+                        .foregroundColor(.red)
+                        .minimumScaleFactor(0.2)
+                        .multilineTextAlignment(.center)
+                        .frame(width: 12, height: 12)
+                        .background(.white.opacity(0.2))
+                        .cornerRadius(6)
+                        .shadow(radius: 6)
+                        .padding(.top, -2)
                 }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 40)
+            .background(.background.opacity(0.01))
+            .compositingGroup()
+            .onTapGesture {
+                viewModel.selectedChapterID = chapter.id
+            }
         }
     }
     
