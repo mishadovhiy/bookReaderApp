@@ -8,27 +8,23 @@
 import Foundation
 import Combine
 import CoreData
+import SwiftUI
 
 class ParentPageViewModel: ObservableObject {
     
     @Published var scrollIDs: [BookModel.Chapters: String] = [:]
     @Published var higlightedText: [TagPositionList] = []
-    @Published var readingProgress: ReadingProgress?
+    @Binding var readingProgress: ReadingProgress?
     
-    init(readingProgress: ReadingProgress?) {
-        self.readingProgress = readingProgress
+    init(readingProgress: Binding<ReadingProgress?>) {
+        self._readingProgress = Binding(projectedValue: readingProgress)
+        self.tabViewSelection = readingProgress.wrappedValue?.chapterID ?? ""
     }
     
-    var tabViewSelection: String {
-        get {
-            readingProgress?.chapterID ?? ""
-        }
-        set {
-            readingProgress?.chapterID = newValue
-        }
-    }
+    @Published var tabViewSelection: String
     
     func selectionDidChange(book: BookModel, db: CoreDataService) {
+        print(tabViewSelection, " gtfsasdfgsd ")
         if readingProgress?.chapterID != tabViewSelection {
             readingProgress = .init(context: db.context)
             readingProgress?.bookID = book.id

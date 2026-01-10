@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		82458E4C2F1263010021B230 /* BackgroundTextViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82458E4B2F1263010021B230 /* BackgroundTextViewModifier.swift */; };
+		82458E4F2F1265BD0021B230 /* ChapterPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82458E4E2F1265BD0021B230 /* ChapterPickerView.swift */; };
 		82CEE2C52F11687E002CC056 /* bookReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C22F11687E002CC056 /* bookReaderApp.swift */; };
 		82CEE2C72F11687E002CC056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82CEE2C12F11687E002CC056 /* Assets.xcassets */; };
 		82CEE2C92F116A2F002CC056 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C82F116A2F002CC056 /* NetworkService.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		82458E4B2F1263010021B230 /* BackgroundTextViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTextViewModifier.swift; sourceTree = "<group>"; };
+		82458E4E2F1265BD0021B230 /* ChapterPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterPickerView.swift; sourceTree = "<group>"; };
 		82CEE2B32F11686E002CC056 /* bookReader Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bookReader Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82CEE2C12F11687E002CC056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82CEE2C22F11687E002CC056 /* bookReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bookReaderApp.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				82CEE2FB2F11CDF9002CC056 /* HomeView.swift */,
+				82458E4E2F1265BD0021B230 /* ChapterPickerView.swift */,
 				82CEE2CF2F116BDA002CC056 /* ParentPageView.swift */,
 				82CEE2D12F116BE5002CC056 /* PageView.swift */,
 				82CEE2D82F116C66002CC056 /* ReusableView */,
@@ -263,6 +266,7 @@
 			files = (
 				82458E4C2F1263010021B230 /* BackgroundTextViewModifier.swift in Sources */,
 				82CEE2C52F11687E002CC056 /* bookReaderApp.swift in Sources */,
+				82458E4F2F1265BD0021B230 /* ChapterPickerView.swift in Sources */,
 				82CEE2E62F116F0D002CC056 /* FetchBookContentRequest.swift in Sources */,
 				82CEE2E82F116F6C002CC056 /* Key.swift in Sources */,
 				82CEE2EF2F1171EF002CC056 /* RequestBuilder.swift in Sources */,

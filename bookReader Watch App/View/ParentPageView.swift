@@ -14,14 +14,15 @@ struct ParentPageView: View {
     @StateObject var viewModel: ParentPageViewModel
     
     init(book: BookModel,
-         readingProgress: ReadingProgress?,
+         readingProgress: Binding<ReadingProgress?>,
          chapterID: String?) {
         self.book = book
         if let chapterID {
-            readingProgress?.chapterID = chapterID
+            readingProgress.wrappedValue?.chapterID = chapterID
         }
         _viewModel = StateObject(wrappedValue: .init(readingProgress: readingProgress))
     }
+    
     var body: some View {
         TabView(selection: $viewModel.tabViewSelection) {
             ForEach(book.chapters, id: \.id) { chapter in
@@ -38,6 +39,7 @@ struct ParentPageView: View {
             viewModel.selectionDidChange(book: book, db: coreDataService)
         })
         .onDisappear {
+            print(self.viewModel.readingProgress?.chapterID, " nkjerfnkudwfn ")
             Task(priority: .background) {
                 coreDataService.save(savingReadingList: self.viewModel.readingProgress)
             }
@@ -45,6 +47,3 @@ struct ParentPageView: View {
     }
 }
 
-#Preview {
-    ParentPageView(book: .demo, readingProgress: nil, chapterID: nil)
-}
