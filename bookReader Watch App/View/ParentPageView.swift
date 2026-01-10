@@ -11,8 +11,17 @@ import CoreData
 struct ParentPageView: View {
     let book: BookModel
     @EnvironmentObject var coreDataService: CoreDataService
-    @StateObject var viewModel: ParentPageViewModel = .init()
+    @StateObject var viewModel: ParentPageViewModel
     
+    init(book: BookModel,
+         readingProgress: ReadingProgress?,
+         chapterID: String?) {
+        self.book = book
+        if let chapterID {
+            readingProgress?.chapterID = chapterID
+        }
+        _viewModel = StateObject(wrappedValue: .init(readingProgress: readingProgress))
+    }
     var body: some View {
         TabView(selection: $viewModel.selection) {
             ForEach(book.chapters, id: \.id) { chapter in
@@ -24,10 +33,10 @@ struct ParentPageView: View {
         .onChange(of: viewModel.selection) { newValue in
             viewModel.selectionDidChange(book: book, db: coreDataService)
         }
-        .task {
-            await viewModel.fetchReadingProgress(db: coreDataService, bookID: book.id)
-        }
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .onAppear(perform: {
+            viewModel.selectionDidChange(book: book, db: coreDataService)
+        })
         .onDisappear {
             Task(priority: .background) {
                 coreDataService.save(savingReadingList: self.viewModel.readingProgress)
@@ -37,6 +46,6 @@ struct ParentPageView: View {
     }
 }
 
-#Preview {
-    ParentPageView(book: .init(id: "", title: "", chapters: []))
-}
+//#Preview {
+//    ParentPageView(book: .init(id: "", title: "", chapters: []))
+//}

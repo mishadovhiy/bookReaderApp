@@ -36,6 +36,7 @@ struct PageView: View {
                     textListView
                 })
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
                 .onChange(of: viewModel.scrollTo) { newValue in
                     if let newValue {
                         scrollProxy.scrollTo(newValue)
@@ -44,16 +45,16 @@ struct PageView: View {
                 }
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .onChange(of: tapPositions) { newValue in
             viewModel.reloadAttributedString(tagPosition: tapPositions)
         }
-        .onChange(of: readingProgress) { newValue in
-            if let lastScrollID = readingProgress?.paragraphID, !lastScrollID.isEmpty {
-                viewModel.scrollTo = lastScrollID
-            }
-        }
         .onAppear {
             viewModel.reloadAttributedString(tagPosition: tapPositions)
+            if let lastScrollID = readingProgress?.paragraphID, !lastScrollID.isEmpty {
+                print(lastScrollID, " juhkjbhk ")
+                viewModel.scrollTo = lastScrollID
+            }
         }
         .onDisappear {
             self.readingProgress?.paragraphID = viewModel.lastVisibleParagraph
