@@ -42,19 +42,43 @@ struct HomeView: View {
                     chapterPageView
                 } label: {
                     Text(viewModel.startButtonTitle)
+                        .shadow(radius: 5)
                 }
-                Spacer().frame(height: 10)
+                .background(.white)
+                .font(.headline)
+                .cornerRadius(50)
+                .tint(.black)
+                Spacer().frame(height: 30)
                 Divider()
-                VStack {
-                    Text("Chapters")
-                        .font(.footnote)
-                        .foregroundColor(.secondary)
+                    .opacity(0.4)
+                Text("Chapters")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .multilineTextAlignment(.leading)
+                    .font(.footnote)
+                    .opacity(0.8)
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 20)
+                VStack(spacing: .zero) {
+                    
                     ForEach(viewModel.response?.chapters ?? [], id: \.id) { chapter in
-                        Button(chapter.title) {
-                            viewModel.selectedChapterID = chapter.id
-                        }
+
+                        Text(chapter.title)
+                            .opacity(0.8)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background(.background.opacity(0.01))
+                            .frame(height: 40)
+                            .font(.footnote)
+                            .multilineTextAlignment(.leading)
+                            .onTapGesture {
+                                viewModel.selectedChapterID = chapter.id
+
+                            }
                     }
                 }
+                .padding(15)
+                .background(.white.opacity(0.08))
+                .cornerRadius(24)
+                .padding(5)
             }
             .padding()
         }
