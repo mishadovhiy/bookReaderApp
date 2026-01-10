@@ -112,6 +112,12 @@ struct PageView: View {
             if values.contains(where: {
                 $0.positionInText == text
             }) {
+                let toDelete = backGroundsAt.filter({
+                    $0.positionInText == text
+                })
+                toDelete.forEach {
+                    db.contexts.delete($0)
+                }
                 backGroundsAt.removeAll(where: {
                     $0.positionInText == text
                 })
