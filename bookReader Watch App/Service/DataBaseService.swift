@@ -70,12 +70,14 @@ extension DataBaseService {
         func writeData(_ data: Data,
                        directory: String,
                        url: URL) throws -> Error? {
-            let url = url.appendingPathComponent(directory)
+            let fileURL = url.appendingPathComponent(directory)
             do {
                 try FileManager.default.createDirectory(
                     at: url,
                     withIntermediateDirectories: true
                 )
+                try data.write(to: fileURL, options: .atomic)
+
                 return nil
             } catch {
                 throw error

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		82CEE2C52F11687E002CC056 /* bookReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C22F11687E002CC056 /* bookReaderApp.swift */; };
-		82CEE2C62F11687E002CC056 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C32F11687E002CC056 /* HomeView.swift */; };
 		82CEE2C72F11687E002CC056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82CEE2C12F11687E002CC056 /* Assets.xcassets */; };
 		82CEE2C92F116A2F002CC056 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C82F116A2F002CC056 /* NetworkService.swift */; };
 		82CEE2CB2F116A40002CC056 /* BookModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2CA2F116A3F002CC056 /* BookModel.swift */; };
@@ -25,13 +24,16 @@
 		82CEE2F32F11803F002CC056 /* TagPositionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F22F11803F002CC056 /* TagPositionModel.swift */; };
 		82CEE2F52F118048002CC056 /* TagModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F42F118048002CC056 /* TagModel.swift */; };
 		82CEE2F72F118F7D002CC056 /* ErrorNetworkResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F62F118F7D002CC056 /* ErrorNetworkResponse.swift */; };
+		82CEE2FA2F11B7E1002CC056 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2F92F11B7E1002CC056 /* String.swift */; };
+		82CEE2FC2F11CDF9002CC056 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2FB2F11CDF9002CC056 /* HomeView.swift */; };
+		82CEE30B2F11E0DC002CC056 /* ReadingProgress.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE3092F11E0DC002CC056 /* ReadingProgress.xcdatamodeld */; };
+		82CEE30D2F11E225002CC056 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE30C2F11E225002CC056 /* CoreDataService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		82CEE2B32F11686E002CC056 /* bookReader Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bookReader Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82CEE2C12F11687E002CC056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82CEE2C22F11687E002CC056 /* bookReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bookReaderApp.swift; sourceTree = "<group>"; };
-		82CEE2C32F11687E002CC056 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		82CEE2C82F116A2F002CC056 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		82CEE2CA2F116A3F002CC056 /* BookModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookModel.swift; sourceTree = "<group>"; };
 		82CEE2CF2F116BDA002CC056 /* ParentPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPageView.swift; sourceTree = "<group>"; };
@@ -47,6 +49,11 @@
 		82CEE2F22F11803F002CC056 /* TagPositionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagPositionModel.swift; sourceTree = "<group>"; };
 		82CEE2F42F118048002CC056 /* TagModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagModel.swift; sourceTree = "<group>"; };
 		82CEE2F62F118F7D002CC056 /* ErrorNetworkResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorNetworkResponse.swift; sourceTree = "<group>"; };
+		82CEE2F82F11B251002CC056 /* bookReader-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "bookReader-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		82CEE2F92F11B7E1002CC056 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		82CEE2FB2F11CDF9002CC056 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		82CEE30A2F11E0DC002CC056 /* ReadingProgress.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ReadingProgress.xcdatamodel; sourceTree = "<group>"; };
+		82CEE30C2F11E225002CC056 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +86,11 @@
 		82CEE2C42F11687E002CC056 /* bookReader Watch App */ = {
 			isa = PBXGroup;
 			children = (
+				82CEE2F82F11B251002CC056 /* bookReader-Watch-App-Info.plist */,
 				82CEE2C12F11687E002CC056 /* Assets.xcassets */,
 				82CEE2C22F11687E002CC056 /* bookReaderApp.swift */,
+				82CEE3092F11E0DC002CC056 /* ReadingProgress.xcdatamodeld */,
+				82CEE3082F11DDF1002CC056 /* Extensions */,
 				82CEE2E92F116F72002CC056 /* AppConfig */,
 				82CEE2CD2F116A4C002CC056 /* Service */,
 				82CEE2CC2F116A45002CC056 /* Model */,
@@ -107,6 +117,7 @@
 			children = (
 				82CEE2ED2F1171E6002CC056 /* NetworkService */,
 				82CEE2D92F116D6D002CC056 /* DataBaseService.swift */,
+				82CEE30C2F11E225002CC056 /* CoreDataService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -114,7 +125,7 @@
 		82CEE2CE2F116A56002CC056 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				82CEE2C32F11687E002CC056 /* HomeView.swift */,
+				82CEE2FB2F11CDF9002CC056 /* HomeView.swift */,
 				82CEE2CF2F116BDA002CC056 /* ParentPageView.swift */,
 				82CEE2D12F116BE5002CC056 /* PageView.swift */,
 				82CEE2D82F116C66002CC056 /* ReusableView */,
@@ -163,6 +174,14 @@
 				82CEE2EE2F1171EF002CC056 /* RequestBuilder.swift */,
 			);
 			path = NetworkService;
+			sourceTree = "<group>";
+		};
+		82CEE3082F11DDF1002CC056 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				82CEE2F92F11B7E1002CC056 /* String.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -243,16 +262,19 @@
 				82CEE2F32F11803F002CC056 /* TagPositionModel.swift in Sources */,
 				82CEE2EF2F1171EF002CC056 /* RequestBuilder.swift in Sources */,
 				82CEE2D22F116BE5002CC056 /* PageView.swift in Sources */,
+				82CEE30B2F11E0DC002CC056 /* ReadingProgress.xcdatamodeld in Sources */,
 				82CEE2F52F118048002CC056 /* TagModel.swift in Sources */,
 				82CEE2D42F116C04002CC056 /* HomeViewModel.swift in Sources */,
 				82CEE2C92F116A2F002CC056 /* NetworkService.swift in Sources */,
 				82CEE2D02F116BDA002CC056 /* ParentPageView.swift in Sources */,
 				82CEE2D72F116C61002CC056 /* LoadingView.swift in Sources */,
+				82CEE30D2F11E225002CC056 /* CoreDataService.swift in Sources */,
 				82CEE2CB2F116A40002CC056 /* BookModel.swift in Sources */,
+				82CEE2FA2F11B7E1002CC056 /* String.swift in Sources */,
 				82CEE2F12F117E41002CC056 /* DataBaseModel.swift in Sources */,
 				82CEE2F72F118F7D002CC056 /* ErrorNetworkResponse.swift in Sources */,
 				82CEE2EB2F117140002CC056 /* Requestable.swift in Sources */,
-				82CEE2C62F11687E002CC056 /* HomeView.swift in Sources */,
+				82CEE2FC2F11CDF9002CC056 /* HomeView.swift in Sources */,
 				82CEE2DA2F116D6D002CC056 /* DataBaseService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,6 +408,7 @@
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "bookReader-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = bookReader;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
@@ -405,7 +428,7 @@
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
@@ -419,6 +442,7 @@
 				DEVELOPMENT_TEAM = FQA2XH9ZUM;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "bookReader-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = bookReader;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "";
@@ -439,7 +463,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 26.0;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
@@ -465,6 +489,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		82CEE3092F11E0DC002CC056 /* ReadingProgress.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				82CEE30A2F11E0DC002CC056 /* ReadingProgress.xcdatamodel */,
+			);
+			currentVersion = 82CEE30A2F11E0DC002CC056 /* ReadingProgress.xcdatamodel */;
+			path = ReadingProgress.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 82CEE2AB2F11686E002CC056 /* Project object */;
 }

@@ -12,12 +12,12 @@ struct BookModel: Codable {
     let title: String
     let chapters: [Chapters]
     
-    struct Chapters: Codable {
+    struct Chapters: Codable, Hashable {
         let id: String
         let title: String
         let paragraphs: [Paragraphs]
         
-        struct Paragraphs: Codable {
+        struct Paragraphs: Codable, Hashable {
             let id: String
             let content: String
         }

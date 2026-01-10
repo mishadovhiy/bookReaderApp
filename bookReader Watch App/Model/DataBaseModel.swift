@@ -20,12 +20,13 @@ struct DataBaseModel: Codable {
     
     struct Reading: Codable {
         
-        var progress: [Progress] = []
+        var progress: Progress?
         var tags: [TagPositionModel] = []
         
         struct Progress: Codable {
             let bookID: String
-            let chapterTextIndex: Int
+            let chapterID: String
+            let paragraphID: String
         }
     }
 }

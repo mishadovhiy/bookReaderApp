@@ -18,7 +18,7 @@ extension NetworkService {
             guard let url = URL(string: stringURL) else {
                 throw NSError(domain: "Error creating url", code: URLError.badURL.rawValue)
             }
-            request = .init(url: url)
+            request = .init(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
         }
     }
 }
