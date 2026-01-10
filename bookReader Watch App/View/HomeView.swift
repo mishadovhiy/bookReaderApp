@@ -33,7 +33,6 @@ struct HomeView: View {
         }
         .environmentObject(coreDataService)
     }
-    
 
     var contentView: some View {
         ScrollView(.vertical) {
@@ -49,41 +48,13 @@ struct HomeView: View {
             .background(.black)
             .compositingGroup()
             .background {
-                GeometryReader { proxy in
-                    Color.clear
-                        .onChange(of: proxy.frame(in: .global)) { newValue in
-                            viewModel.scrollPositionChanged(newValue, size: proxy.size)
-                        }
-                }
+                contentSizeReader
             }
         }
-        .background {
-            GeometryReader { proxy in
-                Color.clear
-                    .onAppear {
-                        viewModel.safeArea = proxy.safeAreaInsets
-                    }
-            }
-        }
-        .background(content: {
-            Text(viewModel.scrollBackgroundText)
-                .font(.system(size: 9))
-            .multilineTextAlignment(.leading)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .foregroundColor(.secondary)
-        })
-
-        .overlay(content: {
-            VStack {
-                Color.black
-                    .frame(height: viewModel.backgroundTextOverlay.top)
-                Spacer()
-                Color.black
-                    .frame(height: viewModel.backgroundTextOverlay.bottom)
-                    .offset(y: viewModel.safeArea.bottom / 2)
-            }
-            .disabled(true)
-        })
+        .modifier(BackgroundTextViewModifier(
+            text: viewModel.scrollBackgroundText,
+            textHelperOverlaySizes: viewModel.backgroundTextOverlay,
+            safeArea: $viewModel.safeArea))
         .overlay {
             NavigationLink("", destination: chapterPageView, isActive: $viewModel.isPagePresenting)
                 .hidden()
@@ -146,20 +117,7 @@ struct HomeView: View {
                     .font(.footnote)
                     .multilineTextAlignment(.leading)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                if let tagCount = viewModel.tagCount[chapter.id],
-                    tagCount >= 1 {
-                    Text("\(tagCount)")
-                        .blendMode(.destinationOut)
-                        .font(.footnote)
-                        .foregroundColor(.red)
-                        .minimumScaleFactor(0.2)
-                        .multilineTextAlignment(.center)
-                        .frame(width: 12, height: 12)
-                        .background(.white.opacity(0.2))
-                        .cornerRadius(6)
-                        .shadow(radius: 6)
-                        .padding(.top, -2)
-                }
+                chapterTagCount(chapterID: chapter.id)
             }
             .frame(maxWidth: .infinity)
             .frame(height: 40)
@@ -172,9 +130,36 @@ struct HomeView: View {
     }
     
     @ViewBuilder
+    func chapterTagCount(chapterID: String) -> some View {
+        if let tagCount = viewModel.tagCount[chapterID],
+            tagCount >= 1 {
+            Text("\(tagCount)")
+                .blendMode(.destinationOut)
+                .font(.footnote)
+                .foregroundColor(.red)
+                .minimumScaleFactor(0.2)
+                .multilineTextAlignment(.center)
+                .frame(width: 12, height: 12)
+                .background(.white.opacity(0.2))
+                .cornerRadius(6)
+                .shadow(radius: 6)
+                .padding(.top, -2)
+        }
+    }
+    
+    @ViewBuilder
     var chapterPageView: some View {
         if let book = viewModel.response {
             ParentPageView(book: book, readingProgress: viewModel.readingProgress, chapterID: viewModel.selectedChapterID)
+        }
+    }
+    
+    var contentSizeReader: some View {
+        GeometryReader { proxy in
+            Color.clear
+                .onChange(of: proxy.frame(in: .global)) { newValue in
+                    viewModel.scrollPositionChanged(newValue, size: proxy.size)
+                }
         }
     }
 }

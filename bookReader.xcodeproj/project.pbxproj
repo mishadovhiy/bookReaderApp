@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		82458E4C2F1263010021B230 /* BackgroundTextViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82458E4B2F1263010021B230 /* BackgroundTextViewModifier.swift */; };
 		82CEE2C52F11687E002CC056 /* bookReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C22F11687E002CC056 /* bookReaderApp.swift */; };
 		82CEE2C72F11687E002CC056 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 82CEE2C12F11687E002CC056 /* Assets.xcassets */; };
 		82CEE2C92F116A2F002CC056 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE2C82F116A2F002CC056 /* NetworkService.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		82458E4B2F1263010021B230 /* BackgroundTextViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundTextViewModifier.swift; sourceTree = "<group>"; };
 		82CEE2B32F11686E002CC056 /* bookReader Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "bookReader Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		82CEE2C12F11687E002CC056 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		82CEE2C22F11687E002CC056 /* bookReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bookReaderApp.swift; sourceTree = "<group>"; };
@@ -63,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		82458E4D2F1265350021B230 /* ViewModifier */ = {
+			isa = PBXGroup;
+			children = (
+				82458E4B2F1263010021B230 /* BackgroundTextViewModifier.swift */,
+			);
+			path = ViewModifier;
+			sourceTree = "<group>";
+		};
 		82CEE2AA2F11686E002CC056 = {
 			isa = PBXGroup;
 			children = (
@@ -90,6 +100,7 @@
 				82CEE2CC2F116A45002CC056 /* Model */,
 				82CEE2CE2F116A56002CC056 /* View */,
 				82CEE2D52F116C0B002CC056 /* ViewModel */,
+				82458E4D2F1265350021B230 /* ViewModifier */,
 				82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */,
 				82CEE3082F11DDF1002CC056 /* Extensions */,
 			);
@@ -250,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82458E4C2F1263010021B230 /* BackgroundTextViewModifier.swift in Sources */,
 				82CEE2C52F11687E002CC056 /* bookReaderApp.swift in Sources */,
 				82CEE2E62F116F0D002CC056 /* FetchBookContentRequest.swift in Sources */,
 				82CEE2E82F116F6C002CC056 /* Key.swift in Sources */,
