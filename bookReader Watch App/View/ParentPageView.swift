@@ -20,7 +20,7 @@ struct ParentPageView: View {
     var body: some View {
         TabView(selection: $selection) {
             ForEach(book.chapters, id: \.id) { chapter in
-                PageView(bookID: book.id, chapter: chapter, firstAppLaunched: $firstTimeAppLaunched, lastScrollID: .init(get: {
+                PageView(bookID: book.id, chapter: chapter, lastScrollID: .init(get: {
                     return readingProgress?.paragraphID ?? ""
                 }, set: { paragraph in
                     readingProgress?.chapterID = chapter.id

@@ -9,177 +9,78 @@ import SwiftUI
 import CoreData
 
 struct PageView: View {
-    let bookID: String
-    let chapter: BookModel.Chapters
-    @Binding var firstAppLaunched: Bool
-    @State var lastScrollHolder: String?
     
-    @Binding var lastScrollID: String?
-    @State private var scrollTo: String?
-    @State var contents: [(String, NSAttributedString)] = []
     @EnvironmentObject var db: CoreDataService
-    @Binding var backGroundsAt: [TagPositionList]// = ["p-001-001": [6]]
-    func reloadAttributedString() {
-        var contents = contents
-        contents.removeAll()
-        self.chapter.paragraphs.forEach { paragraph in
-            let attributes: NSMutableAttributedString = .init()
-            let array = paragraph.content.split(separator: " ")
-
-            let key = self.backGroundsAt.filter({
-                ![
-                    $0.paragraphID == paragraph.id, $0.chapterID == chapter.id
-                ].contains(false)
-            })
-            for i in 0..<array.count {
-                let item = array[i]
-                let higlight = key.contains(where: {
-                    $0.positionInText == i
-                })
-
-                attributes.append(.init(string: String(item) + " ", attributes: higlight ? [
-                    .backgroundColor: UIColor.red
-                ] : [:]))
-            }
-
-            contents.append((paragraph.id, attributes))
-        }
-        self.contents = contents
+    @Binding var lastScrollID: String?
+    @Binding var backGroundsAt: [TagPositionList]
+    @StateObject private var viewModel: PageViewModel
+    
+    init(bookID: String,
+         chapter: BookModel.Chapters,
+        lastScrollID: Binding<String?>,
+         backGroundsAt: Binding<[TagPositionList]>
+    ) {
+        _viewModel = StateObject(wrappedValue: .init(bookID: bookID, chapter: chapter))
+        _lastScrollID = Binding(projectedValue: lastScrollID)
+        _backGroundsAt = Binding(projectedValue: backGroundsAt)
     }
+    
     var body: some View {
         ScrollView(.vertical) {
             ScrollViewReader { scrollProxy in
                 LazyVStack(spacing: 10, content: {
-                    Text(chapter.title)
+                    Text(viewModel.chapter.title)
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .multilineTextAlignment(.leading)
-                    ForEach(contents, id: \.0) { content in
-                        Text(.init(content.1))
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .font(.system(size: 12))
-                            .multilineTextAlignment(.leading)
-                            .id(content.0)
-                            .onDisappear {
-                                lastScrollHolder = content.0
-                                print(content.0, " bjhknlm ")
-                            }
-                            .overlay {
-                                GeometryReader { proxy in
-                                    Color.white.opacity(0.01)
-                                        .onTapGesture { point in
-                                            didTapWord(parapgaphID: content.0, text: content.1.string, viewWidth: proxy.size.width, tapPosition: point)
-                                        }
-                                }
-                                
-                            }
-                    }
+                    textListView
                 })
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .onChange(of: scrollTo) { newValue in
-                    if let scrollTo {
-                        scrollProxy.scrollTo(scrollTo)
-                        self.scrollTo = nil
+                .onChange(of: viewModel.scrollTo) { newValue in
+                    if let newValue {
+                        scrollProxy.scrollTo(newValue)
+                        self.viewModel.scrollTo = nil
                     }
                 }
             }
         }
         .onChange(of: backGroundsAt) { newValue in
-            reloadAttributedString()
+            viewModel.reloadAttributedString(backGroundsAt: backGroundsAt)
         }
         .onAppear {
-            print("appsfdfds ", lastScrollID)
-            reloadAttributedString()
-            
+            viewModel.reloadAttributedString(backGroundsAt: backGroundsAt)
         }
-        .onChange(of: lastScrollID) { oldValue, newValue in
+        .onChange(of: lastScrollID) { newValue in
             if let lastScrollID, !lastScrollID.isEmpty {
-                scrollTo = lastScrollID
+                viewModel.scrollTo = lastScrollID
             }
         }
         .onDisappear {
-            self.lastScrollID = lastScrollHolder
+            self.lastScrollID = viewModel.lastScrollHolder
         }
     }
     
-    func didTapWord(parapgaphID: String, text: String, viewWidth: CGFloat, tapPosition: CGPoint) {
-        print(tapPosition, " egrsfdsa")
-        let text = self.textAtPoint(tapPosition, text: text, font: .systemFont(ofSize: 12), maxWidth: viewWidth)
-        if let text {
-            let values = self.backGroundsAt.filter({
-                parapgaphID == $0.paragraphID
-            })
-            if values.contains(where: {
-                $0.positionInText == text
-            }) {
-                let toDelete = backGroundsAt.filter({
-                    $0.positionInText == text
-                })
-                toDelete.forEach {
-                    db.contexts.delete($0)
+    var textListView: some View {
+        ForEach(viewModel.contents, id: \.0) { content in
+            Text(.init(content.1))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .font(.system(size: viewModel.textFontSize.pointSize))
+                .multilineTextAlignment(.leading)
+                .id(content.0)
+                .onDisappear {
+                    viewModel.lastScrollHolder = content.0
                 }
-                backGroundsAt.removeAll(where: {
-                    $0.positionInText == text
-                })
-            } else {
-                let new: TagPositionList = .init(context: db.contexts)
-                new.bookID = bookID
-                new.chapterID = chapter.id
-                new.paragraphID = parapgaphID
-                new.positionInText = Int64(text)
-                backGroundsAt.append(new)
-            }
+                .overlay {
+                    GeometryReader { proxy in
+                        Color.white.opacity(0.01)
+                            .onTapGesture { point in
+                                viewModel.didTapWord(parapgaphID: content.0, text: content.1.string, viewWidth: proxy.size.width, tapPosition: point, backGroundsAt: $backGroundsAt, db: db)
+                            }
+                    }
+                    
+                }
         }
-        print(text)
-    }
-    
-    func wordWidth(_ word: String, font: UIFont) -> CGFloat {
-        (word as NSString).size(withAttributes: [.font: font]).width
-    }
-    
-    func textAtPoint(
-        _ point: CGPoint,
-        text: String,
-        font: UIFont,
-        maxWidth: CGFloat
-    ) -> Int? {
-
-        let words = text.split(whereSeparator: \.isWhitespace)
-        let spaceWidth = wordWidth(" ", font: font)
-        let lineHeight = font.lineHeight
-
-        var x: CGFloat = 0
-        var y: CGFloat = 0
-
-        for i in 0..<words.count {
-            let word = words[i]
-            let wordStr = String(word)
-            let width = wordWidth(wordStr, font: font)
-            // wrap line
-            if x + width > maxWidth {
-                x = 0
-                y += lineHeight
-            }
-
-            let rect = CGRect(
-                x: x,
-                y: y,
-                width: width,
-                height: lineHeight
-            )
-
-            if rect.contains(point) {
-                return i
-            }
-
-            x += width + spaceWidth
-        }
-
-        return nil
     }
 
 }
-//
-//#Preview {
-//    PageView(bookID: "001", chapter: .demo)
-//}
+
