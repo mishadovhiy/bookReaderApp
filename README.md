@@ -6,13 +6,14 @@
 https://github.com/user-attachments/assets/beda585b-a9f9-42ad-b7fe-2258e2dc25a0
 
 ## Functionalities
-- Fetch json representable book from URL and store response in cache
-- <b>Swipe</b> between pages and scroll inside selected chapter
-- Tap on word to <b>save word as bookmark</b>
-- <b>Save reading progress</b> to the local database. <small>Additionally saved tags for specific chapters are displayed on the home screen as a number - count of tags at chapter</small>
-- Select chapter from home screen ability (on the home screen, in chapters section, displayed titles for all chapters that are not saved as "currently reading", because to the currently reading chapter user gets by pressing resume reading)
-- <b>Continue reading button</b> - takes to the last reading chapter and scrolls to the last reading paragraph, or to the first chapter to the beginning of the page if nothing was saved to the reading progress
+<p>- Fetch json representable book from URL and store response in cache</p>
+<p>- <b>Swipe</b> between pages and scroll inside selected chapter</p>
+<p>- Tap on word to <b>save word as bookmark</b></p>
+<p>- <b>Save reading progress</b> to the local database. <small>Additionally saved tags for specific chapters are displayed on the home screen as a number - count of tags at chapter</small></p>
+<p>- Select chapter from home screen ability (on the home screen, in chapters section, displayed titles for all chapters that are not saved as "currently reading", because to the currently reading chapter user gets by pressing resume reading)</p>
+<p>- <b>Continue reading button</b> - takes to the last reading chapter and scrolls to the last reading paragraph, or to the first chapter to the beginning of the page if nothing was saved to the reading progress</p>
 
+## Overview
 <div style="display:flex">
 <p><b>Local database</b> - implemented with CoreData<br><small>(stores reading progress, tapped tags)</small></p>
 
@@ -22,5 +23,5 @@ https://github.com/user-attachments/assets/beda585b-a9f9-42ad-b7fe-2258e2dc25a0
 
 </div>
 
-
+## 
 Additionally implemented static text on home screen, under continiue reading button. Text stays statically on the screen during the scroll, and presents limited amount of characters, from limited about of chapters
