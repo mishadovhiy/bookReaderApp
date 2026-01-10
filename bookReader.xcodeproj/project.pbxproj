@@ -25,6 +25,7 @@
 		82CEE30B2F11E0DC002CC056 /* AppData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE3092F11E0DC002CC056 /* AppData.xcdatamodeld */; };
 		82CEE30D2F11E225002CC056 /* CoreDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE30C2F11E225002CC056 /* CoreDataService.swift */; };
 		82CEE31F2F1210FA002CC056 /* PageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE31E2F1210FA002CC056 /* PageViewModel.swift */; };
+		82CEE3212F1221C1002CC056 /* ParentPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82CEE3202F1221C1002CC056 /* ParentPageViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		82CEE30A2F11E0DC002CC056 /* AppData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AppData.xcdatamodel; sourceTree = "<group>"; };
 		82CEE30C2F11E225002CC056 /* CoreDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataService.swift; sourceTree = "<group>"; };
 		82CEE31E2F1210FA002CC056 /* PageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewModel.swift; sourceTree = "<group>"; };
+		82CEE3202F1221C1002CC056 /* ParentPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParentPageViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				82CEE2D32F116C04002CC056 /* HomeViewModel.swift */,
+				82CEE3202F1221C1002CC056 /* ParentPageViewModel.swift */,
 				82CEE31E2F1210FA002CC056 /* PageViewModel.swift */,
 			);
 			path = ViewModel;
@@ -264,6 +267,7 @@
 				82CEE2F72F118F7D002CC056 /* ErrorNetworkResponse.swift in Sources */,
 				82CEE2EB2F117140002CC056 /* Requestable.swift in Sources */,
 				82CEE2FC2F11CDF9002CC056 /* HomeView.swift in Sources */,
+				82CEE3212F1221C1002CC056 /* ParentPageViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

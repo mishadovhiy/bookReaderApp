@@ -11,17 +11,17 @@ import CoreData
 struct PageView: View {
     
     @EnvironmentObject var db: CoreDataService
-    @Binding var lastScrollID: String?
+    @Binding var readingProgress: ReadingProgress?
     @Binding var tapPositions: [TagPositionList]
     @StateObject private var viewModel: PageViewModel
     
     init(bookID: String,
          chapter: BookModel.Chapters,
-        lastScrollID: Binding<String?>,
+         readingProgress: Binding<ReadingProgress?>,
          tapPositions: Binding<[TagPositionList]>
     ) {
         _viewModel = StateObject(wrappedValue: .init(bookID: bookID, chapter: chapter))
-        _lastScrollID = Binding(projectedValue: lastScrollID)
+        _readingProgress = Binding(projectedValue: readingProgress)
         _tapPositions = Binding(projectedValue: tapPositions)
     }
     
@@ -45,18 +45,18 @@ struct PageView: View {
             }
         }
         .onChange(of: tapPositions) { newValue in
-            viewModel.reloadAttributedString(backGroundsAt: tapPositions)
+            viewModel.reloadAttributedString(tagPosition: tapPositions)
         }
-        .onAppear {
-            viewModel.reloadAttributedString(backGroundsAt: tapPositions)
-        }
-        .onChange(of: lastScrollID) { newValue in
-            if let lastScrollID, !lastScrollID.isEmpty {
+        .onChange(of: readingProgress) { newValue in
+            if let lastScrollID = readingProgress?.paragraphID, !lastScrollID.isEmpty {
                 viewModel.scrollTo = lastScrollID
             }
         }
+        .onAppear {
+            viewModel.reloadAttributedString(tagPosition: tapPositions)
+        }
         .onDisappear {
-            self.lastScrollID = viewModel.lastVisibleParagraph
+            self.readingProgress?.paragraphID = viewModel.lastVisibleParagraph
         }
     }
     
@@ -74,7 +74,7 @@ struct PageView: View {
                     GeometryReader { proxy in
                         Color.white.opacity(0.01)
                             .onTapGesture { point in
-                                viewModel.didTapWord(parapgaphID: content.0, text: content.1.string, viewWidth: proxy.size.width, tapPosition: point, backGroundsAt: $tapPositions, db: db)
+                                viewModel.didTapWord(parapgaphID: content.0, text: content.1.string, viewWidth: proxy.size.width, tapPosition: point, tagPosition: $tapPositions, db: db)
                             }
                     }
                     

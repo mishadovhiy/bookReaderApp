@@ -70,13 +70,13 @@ class PageViewModel: ObservableObject {
                     $0.positionInText == wordIndexTapped
                 })
                 toDelete.forEach {
-                    db.contexts.delete($0)
+                    db.context.delete($0)
                 }
                 tagPosition.wrappedValue.removeAll(where: {
                     $0.positionInText == wordIndexTapped
                 })
             } else {
-                let new: TagPositionList = .init(context: db.contexts)
+                let new: TagPositionList = .init(context: db.context)
                 new.bookID = bookID
                 new.chapterID = chapter.id
                 new.paragraphID = parapgaphID
