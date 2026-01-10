@@ -102,4 +102,12 @@ class HomeViewModel: ObservableObject {
         }))
     }
     
+    var scrollBackgroundText: String {
+        response?.chapters.compactMap({
+            $0.paragraphs.compactMap({
+                $0.content
+            })
+            .joined(separator: " ")
+        }).joined(separator: " ") ?? ""
+    }
 }

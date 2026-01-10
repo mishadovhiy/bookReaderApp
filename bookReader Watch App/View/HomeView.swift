@@ -34,6 +34,9 @@ struct HomeView: View {
         .environmentObject(coreDataService)
     }
     
+    @State var safeArea: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+    @State var topHeight: CGFloat = 0
+    @State var bottomHeight: CGFloat = 0
     var contentView: some View {
         ScrollView(.vertical) {
             VStack() {
@@ -45,7 +48,54 @@ struct HomeView: View {
                 chapterContainer
             }
             .padding(10)
+            .background(.black)
+            .compositingGroup()
+            .background {
+                GeometryReader { proxy in
+                    Color.clear
+                        .onChange(of: proxy.frame(in: .global)) { newValue in
+                            if newValue.minY >= safeArea.top {
+                                topHeight = newValue.minY - safeArea.top
+                                bottomHeight = 0
+                            } else {
+                                topHeight = 0
+                                let difference = proxy.size.height / 2 + (safeArea.top + safeArea.bottom)
+                                if newValue.maxY <= difference {
+                                    bottomHeight = difference - newValue.maxY
+                                } else {
+                                    bottomHeight = 0
+                                }
+                            }
+                            
+                        }
+                }
+            }
         }
+        .background {
+            GeometryReader { proxy in
+                Color.clear
+                    .onAppear {
+                        print(proxy.size.height,  " tvrefcx", proxy.safeAreaInsets.top, " efrsdeas", proxy.safeAreaInsets.bottom)
+                        safeArea = proxy.safeAreaInsets
+                    }
+            }
+        }
+        .background(content: {
+            Text(viewModel.scrollBackgroundText)
+            .multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .foregroundColor(.secondary)
+        })
+
+        .overlay(content: {
+            VStack {
+                Color.black
+                    .frame(height: topHeight)
+                Spacer()
+                Color.black.frame(height: bottomHeight)
+            }
+            .disabled(true)
+        })
         .overlay {
             NavigationLink("", destination: chapterPageView, isActive: $viewModel.isPagePresenting)
                 .hidden()
@@ -64,7 +114,13 @@ struct HomeView: View {
             Text(viewModel.startButtonTitle)
                 .shadow(radius: 5)
         }
-        .background(.white)
+        .background(content: {
+            ZStack {
+                Color.red
+                    .blendMode(.destinationOut)
+                Color.white.opacity(0.9)
+            }
+        })
         .font(.headline)
         .cornerRadius(50)
         .tint(.black)
