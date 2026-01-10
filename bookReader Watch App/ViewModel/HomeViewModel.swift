@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import CoreData
+import SwiftUI
 
 class HomeViewModel: ObservableObject {
     @MainActor @Published var response: BookModel?
@@ -16,6 +17,9 @@ class HomeViewModel: ObservableObject {
     @Published var readingProgress: ReadingProgress?
     @Published var selectedChapterID: String?
     @MainActor @Published var tagCount: [String: Int] = [:]
+    
+    @Published var safeArea: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
+    @Published var backgroundTextOverlay: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
     
     var isPagePresenting: Bool {
         get {
@@ -103,11 +107,26 @@ class HomeViewModel: ObservableObject {
     }
     
     var scrollBackgroundText: String {
-        response?.chapters.compactMap({
+        String((response?.chapters.prefix(10).compactMap({
             $0.paragraphs.compactMap({
                 $0.content
             })
             .joined(separator: " ")
-        }).joined(separator: " ") ?? ""
+        }).joined(separator: " ") ?? "").prefix(1000))
+    }
+    
+    func scrollPositionChanged(_ frame: CGRect, size: CGSize) {
+        if frame.minY >= safeArea.top {
+            backgroundTextOverlay.top = frame.minY - safeArea.top
+            backgroundTextOverlay.bottom = 0
+        } else {
+            backgroundTextOverlay.top = 0
+            let difference = size.height / 2 + (safeArea.top + safeArea.bottom)
+            if frame.maxY <= difference {
+                backgroundTextOverlay.bottom = difference - frame.maxY
+            } else {
+                backgroundTextOverlay.bottom = 0
+            }
+        }
     }
 }

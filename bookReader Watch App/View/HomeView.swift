@@ -34,9 +34,7 @@ struct HomeView: View {
         .environmentObject(coreDataService)
     }
     
-    @State var safeArea: EdgeInsets = .init(top: 0, leading: 0, bottom: 0, trailing: 0)
-    @State var topHeight: CGFloat = 0
-    @State var bottomHeight: CGFloat = 0
+
     var contentView: some View {
         ScrollView(.vertical) {
             VStack() {
@@ -54,19 +52,7 @@ struct HomeView: View {
                 GeometryReader { proxy in
                     Color.clear
                         .onChange(of: proxy.frame(in: .global)) { newValue in
-                            if newValue.minY >= safeArea.top {
-                                topHeight = newValue.minY - safeArea.top
-                                bottomHeight = 0
-                            } else {
-                                topHeight = 0
-                                let difference = proxy.size.height / 2 + (safeArea.top + safeArea.bottom)
-                                if newValue.maxY <= difference {
-                                    bottomHeight = difference - newValue.maxY
-                                } else {
-                                    bottomHeight = 0
-                                }
-                            }
-                            
+                            viewModel.scrollPositionChanged(newValue, size: proxy.size)
                         }
                 }
             }
@@ -75,13 +61,13 @@ struct HomeView: View {
             GeometryReader { proxy in
                 Color.clear
                     .onAppear {
-                        print(proxy.size.height,  " tvrefcx", proxy.safeAreaInsets.top, " efrsdeas", proxy.safeAreaInsets.bottom)
-                        safeArea = proxy.safeAreaInsets
+                        viewModel.safeArea = proxy.safeAreaInsets
                     }
             }
         }
         .background(content: {
             Text(viewModel.scrollBackgroundText)
+                .font(.system(size: 9))
             .multilineTextAlignment(.leading)
             .frame(maxWidth: .infinity, alignment: .leading)
             .foregroundColor(.secondary)
@@ -90,9 +76,11 @@ struct HomeView: View {
         .overlay(content: {
             VStack {
                 Color.black
-                    .frame(height: topHeight)
+                    .frame(height: viewModel.backgroundTextOverlay.top)
                 Spacer()
-                Color.black.frame(height: bottomHeight)
+                Color.black
+                    .frame(height: viewModel.backgroundTextOverlay.bottom)
+                    .offset(y: viewModel.safeArea.bottom / 2)
             }
             .disabled(true)
         })
@@ -112,13 +100,14 @@ struct HomeView: View {
             chapterPageView
         } label: {
             Text(viewModel.startButtonTitle)
-                .shadow(radius: 5)
+                .shadow(radius: 8)
         }
         .background(content: {
             ZStack {
                 Color.red
                     .blendMode(.destinationOut)
-                Color.white.opacity(0.9)
+                Color.white.opacity(0.85)
+                    .blur(radius: 5)
             }
         })
         .font(.headline)
